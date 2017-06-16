@@ -1,0 +1,51 @@
+
+<MedapLisObservationRequest version="6.1.188" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="tz-request.xsd">
+  <Observation>
+    <ID>10071000</ID>
+    <IDs>880010</IDs>
+    <RegDate>2016-05-12T10:00:00</RegDate>
+    <HisOrderID>100880010</HisOrderID>
+    <OrderID>10752510</OrderID>
+    <SpecimenTypeID>3</SpecimenTypeID>
+    <SpecimenType>Сыворотка</SpecimenType>
+    <PurposeID>02</PurposeID>
+    <Purpose>Обследование</Purpose>
+    <Diagnosis/>
+<!--    <ResultToOrderingInstitution>true</ResultToOrderingInstitution> не найдено в ТЗ-->
+    <Cito>false</Cito> <!--false и true пишутся с маенькой буквы, или же используйте 1 и 0 (в другом примере всё написано верно)-->
+    <InfoMessage>Врач в Physician.ID</InfoMessage>
+    <Patient>
+      <ID>00000001</ID>
+      <RegCode>8801</RegCode>
+      <FamilyName>Test</FamilyName>
+      <GivenName>Tester</GivenName>
+      <MiddleName>Import8801</MiddleName>
+      <Gender>M</Gender>
+      <BirthDate>1971-04-25</BirthDate>
+      <ExternalID>10006389</ExternalID>
+      <ConditionID>1</ConditionID> <!-- ConditionID по ТЗ находится в контейнере Item, который находится в контейнере Condition, чего не сделано в примерел xml -->
+      <Condition>Здоровый</Condition>
+      <Email>myl@net.ru</Email>
+      <Notes>myl@net.ru</Notes>
+    </Patient>
+    <OrderingInstitution>
+      <ID>2639000</ID>
+      <LocalName>КДП N 121</LocalName>
+      <FullName>ГБУЗ &quot;КДП N 121 ДЗМ&quot; (КДП N 121)</FullName>
+      <Code>4044</Code>
+      <Physician>
+        <ID>2809000</ID>
+        <RegCode>2</RegCode>
+        <GivenName>Пархомчук Евгения Вадимовна</GivenName>
+      </Physician>
+    </OrderingInstitution>
+    <OrderInfo>
+      <item> <!-- в ТЗ было пописано что Item пишется с большой буквы -->
+        <ServiceID>4000</ServiceID>
+        <ExternalID>28065</ExternalID> <!-- Отсутствует в ТЗ -->
+        <Title>анти-HCV</Title>
+        <CategoryID>08</CategoryID>
+      </item>
+    </OrderInfo>
+  </Observation>
+</MedapLisObservationRequest>

@@ -1,0 +1,91 @@
+USE [sciratedb] 
+GO 
+
+/****** Object: StoredProcedure [dbo].[getObjectWithObjectName] Script Date: 05/04/2017 19:30:31 ******/ 
+SET ANSI_NULLS ON 
+GO 
+
+SET QUOTED_IDENTIFIER ON 
+GO 
+
+
+
+
+
+
+/* 
+select * from tsubdivisions where fname like '% физики%' 
+
+declare @id int = 119 
+exec dbo.getSubdivSciProductsSuummary @id 
+*/ 
+--drop PROCEDURE [dbo].[getObjectWithObjectName] 
+CREATE PROCEDURE [dbo].[getObjectWithObjectName] (@db_name varchar, @object_name varchar) 
+AS 
+
+SELECT o.name AS 'Name' , 
+o.[type] AS 'Type', 
+case 
+o.[type] 
+when 'AF' then 'статистическая функция (среда CLR)' 
+when 'C' then 'ограничение CHECK' 
+when 'D' then 'DEFAULT (ограничение или изолированный)' 
+when 'F' then 'ограничение FOREIGN KEY' 
+when 'PK' then 'ограничение PRIMARY KEY' 
+when 'P' then 'хранимая процедура SQL' 
+when 'PC' then 'хранимая процедура сборки (среда CLR)' 
+when 'FN' then 'скалярная функция SQL' 
+when 'FS' then 'скалярная функция сборки (среда CLR)' 
+when 'FT' then 'возвращающая табличное значение функция сборки (среда CLR)' 
+when 'R' then 'правило (старый стиль, изолированный)' 
+when 'RF' then 'процедура фильтра репликации' 
+when 'S' then 'системная базовая таблица' 
+when 'SN' then 'синоним' 
+when 'SQ' then 'очередь обслуживания' 
+when 'TA' then 'триггер DML сборки (среда CLR)' 
+when 'TR' then 'триггер DML SQL' 
+when 'IF' then 'встроенная возвращающая табличное значение функция SQL' 
+when 'TF' then 'возвращающая табличное значение функция SQL' 
+when 'U' then 'таблица (пользовательская)' 
+when 'UQ' then 'ограничение UNIQUE' 
+when 'V' then 'представление' 
+when 'X' then 'расширенная хранимая процедура' 
+when 'IT' then 'внутренняя таблица' 
+end AS 'Type Name', 
+sm.[definition] AS 'Script' 
+FROM sys.objects o 
+INNER JOIN sys.sql_modules sm ON o.object_id = sm.object_id 
+WHERE sm.[definition] like ('%'+@object_name+'%') 
+AND o.name not Like @object_name 
+and DB_NAME() like @db_name 
+ORDER BY o.name; 
+
+
+
+
+GO
+
+
+/**********
+**********/
+
+
+/* 
+exec dbo.[getObjectWithObjectNameFromTable] 'tSQLQueries','sqlquery','getPersRate' 
+*/ 
+drop PROCEDURE [dbo].[getObjectWithObjectNameFromTable] 
+go 
+CREATE PROCEDURE [dbo].[getObjectWithObjectNameFromTable] (@table_name varchar(50), @field_name varchar(50), @object_name varchar(50)) 
+AS 
+
+declare @str as nvarchar (1000) 
+set @str = 
+'SELECT * FROM ' + 
+@table_name + 
+' WHERE '+ @field_name +' Like ''%' + @object_name +'%''' 
+print @str 
+exec sp_executesql @str 
+
+
+GO
+
